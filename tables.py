@@ -90,28 +90,28 @@ def main():
         "campus_trend_doubling_months": ("Doubling time of the largest campus", "months"),
     }
     sources = {
-        "p0_us_ai_power_gw": "Epoch AI: global AI ~30 GW in Q4 2025; US taken as half (assumption)",
-        "demand_growth": "Epoch AI (Jul 2026): US AI power 'could reach 100 GW' by 2030; Goldman: 31 -> 66 GW, 2025-27",
-        "hw_eff_growth": "Epoch AI: FLOP/W of leading GPUs/TPUs doubles about every 2 years",
-        "alg_eff_growth": "Epoch AI: compute for fixed performance halves every ~8 months (95% CI 5-14)",
-        "space_kw_per_tonne": "SpaceX filing implies 100 kW/t, its satellite ~70; Google's reference satellite ~49. Vendor end used",
-        "space_tonnes_per_launch": "SpaceX prospectus: Starship V3 designed for 100 t, fully reusable (design goal)",
-        "space_sat_life_years": "Google Suncatcher paper: 5-year reference life, repair 'impracticable'",
+        "p0_us_ai_power_gw": "Epoch AI puts global AI at about 30 GW in Q4 2025; US taken as half (assumption)",
+        "demand_growth": "Epoch AI (Jul 2026) says US AI power 'could reach 100 GW' by 2030; Goldman has 31 to 66 GW over 2025 to 2027",
+        "hw_eff_growth": "Epoch AI finds FLOP/W of leading GPUs and TPUs doubles about every 2 years",
+        "alg_eff_growth": "Epoch AI finds compute for fixed performance halves about every 8 months (95% CI 5 to 14)",
+        "space_kw_per_tonne": "SpaceX's filing implies 100 kW/t and its satellite about 70; Google's reference satellite about 49. Vendor end used",
+        "space_tonnes_per_launch": "SpaceX filing says Starship V3 is designed for 100 t, fully reusable (a design goal)",
+        "space_sat_life_years": "Google's Suncatcher paper uses a 5-year reference life and calls repair 'impracticable'",
         "dc_utilization": "Assumption",
         "us_electricity_twh_2026": "EIA Short-Term Energy Outlook, Sept 2026",
         "us_electricity_growth": "Assumption (EIA shows +1.8% for 2027)",
-        "campus_trend_base_gw": "Epoch AI: Colossus 2 at ~950 MW of IT power, June 2026",
-        "campus_trend_doubling_months": "Epoch AI: the record campus has doubled every ten months since mid-2024",
+        "campus_trend_base_gw": "Epoch AI puts Colossus 2 at about 950 MW of IT power, June 2026",
+        "campus_trend_doubling_months": "Epoch AI finds the record campus has doubled every ten months since mid-2024",
     }
     trows = []
     with open(os.path.join(HERE, "inputs.csv"), newline="") as f:
         for r in csv.DictReader(f):
             # a row without an entry above is shown with its own name, unit and note
             lab, unit = labels.get(r["name"], (r["name"], r["unit"]))
-            rng = f"{r['low']}-{r['high']}" if r["low"] and r["high"] else "not swept"
+            rng = f"{r['low']} to {r['high']}" if r["low"] and r["high"] else "fixed"
             trows.append([lab, f"{float(r['value']):g} {unit}", rng, sources.get(r["name"], r["note"])])
     render_table("t1_inputs.png", "Table 2. Inputs; the range column is what the sensitivity analysis sweeps",
-                 ["Input", "Value", "Range", "Source"], trows, [0.28, 0.16, 0.10, 0.46],
+                 ["Input", "Value", "Range", "Source"], trows, [0.26, 0.16, 0.12, 0.46],
                  note="Full rows with URLs and dates in inputs.csv in the repository.")
 
     # Supplementary / t2: supply paths
@@ -120,7 +120,7 @@ def main():
         s = supply[y]
         srows.append([str(y), f"+{s['grid_as_is_gw']:.0f}", f"+{s['all_out_terrestrial_gw']:.0f}",
                       f"{s['space_ai_launches']:.0f}", f"{by_year[y]['space_capacity_gw']:.1f}"])
-    render_table("t2_supply_paths.png", "Supplementary table. The three supply paths: GW newly connectable to AI sites each year",
+    render_table("t2_supply_paths.png", "Supplementary table. The three supply paths, in GW newly connectable to AI sites each year",
                  ["Year", "Grid as-is (GW/yr)", "All-out on-site (GW/yr)", "AI Starship launches", "Orbital capacity in service (GW)"],
                  srows, [0.10, 0.20, 0.25, 0.20, 0.25],
                  note="Orbital capacity = launches x 100 t x 80 kW/t (the vendor's mass budget), retired after 5 years.")
@@ -150,7 +150,7 @@ def main():
             camp.append([str(y), f"{float(r['pipeline_gw']):.2g} GW", r["site"], f"{trend:.1f} GW", f"{trend/float(r['pipeline_gw']):.1f}x"])
     render_table("t4_campus_gap.png", "Supplementary table. Largest planned single-site campus versus Epoch's ten-month-doubling trend (IT power, mid-year)",
                  ["Year", "Planned", "Site", "Trend", "Gap"], camp, [0.09, 0.13, 0.42, 0.14, 0.12],
-                 note="Trend anchored on Colossus 2 at 0.95 GW in June 2026. Epoch's own projection for the largest campus in 2030 is 4-16 GW.")
+                 note="Trend anchored on Colossus 2 at 0.95 GW in June 2026. Epoch's 2030 range for a single campus is 1 to 5 GW; its 4 to 16 GW is for the largest training run, which may span sites.")
 
     # Table 3 (post) / t5: sensitivity, condensed
     sens = {}
@@ -175,15 +175,15 @@ def main():
         *swept("demand_growth", lambda v: f"Demand growth {v:.1f}x a year"),
         row("Supply 30% lower", "Terrestrial supply 70"),
         row("Supply 30% higher", "Terrestrial supply 130"),
-        ["Both efficiency rates at the low or high end (hardware 1.3-1.5x, algorithms 2.0-3.5x): only the growth rate moves",
+        ["Both efficiency rates at the low or high end (hardware 1.3 to 1.5x, algorithms 2.0 to 3.5x)",
          "2029", "68%", "19%", "3.3x to 6.7x", "18%"],
         row(f"Pessimistic combination ({p_hi:g} GW, {d_hi:.1f}x demand, 70% supply, {a_lo:.1f}x algorithms)", "Pessimistic"),
         row(f"Optimistic combination ({p_lo:g} GW, {d_lo:.1f}x demand, 130% supply, {a_hi:.1f}x algorithms)", "Optimistic"),
     ]
     render_table("t5_sensitivity.png", "Table 3. Only starting power, demand growth and supply move the year the grid binds",
-                 ["Case", "Today's grid binds", "Computing delivered vs the wanted path, 2030", "Same, 2035", "Grid-as-is growth per year, 2025-35 average", "Share of US electricity the wanted path needs, 2030"],
+                 ["Case", "Today's grid binds", "Computing delivered vs the wanted path, 2030", "Same, 2035", "Grid-as-is growth per year, 2025 to 2035 average", "Share of US electricity the wanted path needs, 2030"],
                  srows, [0.30, 0.11, 0.15, 0.10, 0.14, 0.14],
-                 note="The efficiency rates scale both paths equally, so by construction they change the growth rate and not the binding year or the share delivered.")
+                 note="The efficiency rates scale both paths equally, so by construction they change only the growth rate and leave the binding year and the share delivered unchanged.")
 
     # Table 1 (post) / t6: launch math, on two mass budgets
     kw_t_lo, kw_t_hi = inp["space_kw_per_tonne"], 1000 / 20.5   # SpaceX's 12.5 kg/kW vs Google's 20.5 kg/kW
@@ -192,24 +192,24 @@ def main():
     def l_per_gw(kwt): return t_per_gw(kwt) / t_l
     launch = [
         ["1 GW of orbital compute", f"{t_per_gw(kw_t_lo):,.0f} to {t_per_gw(kw_t_hi):,.0f} t", f"{l_per_gw(kw_t_lo):,.0f} to {l_per_gw(kw_t_hi):,.0f}",
-         "Starship has flown 3 times in 2026; Falcon 9 ~170 times in 2025"],
-        ["SpaceX plant target: 1 GW a year from end-2027", f"{t_per_gw(kw_t_lo):,.0f} to {t_per_gw(kw_t_hi):,.0f} t/yr", f"{l_per_gw(kw_t_lo):,.0f} to {l_per_gw(kw_t_hi):,.0f} a year",
+         "Starship flew three times in 2026 to Sept 30; Falcon 9 flew 165 times in 2025"],
+        ["SpaceX plant target of 1 GW a year from end-2027", f"{t_per_gw(kw_t_lo):,.0f} to {t_per_gw(kw_t_hi):,.0f} t/yr", f"{l_per_gw(kw_t_lo):,.0f} to {l_per_gw(kw_t_hi):,.0f} a year",
          "A Starship for AI every two to three days"],
-        ["SpaceX prospectus: 100 GW a year", f"{100*t_per_gw(kw_t_lo)/1e6:.3g} to {100*t_per_gw(kw_t_hi)/1e6:.3g} million t/yr",
+        ["SpaceX filing goal of 100 GW a year", f"{100*t_per_gw(kw_t_lo)/1e6:.3g} to {100*t_per_gw(kw_t_hi)/1e6:.3g} million t/yr",
          f"{100*l_per_gw(kw_t_lo):,.0f} to {100*l_per_gw(kw_t_hi):,.0f} a year",
          f"{100*l_per_gw(kw_t_lo)/365:.0f} to {100*l_per_gw(kw_t_hi)/365:.0f} launches a day; each year's 100 GW is about a fifth of today's US average load"],
     ]
     render_table("t6_launch_math.png", "Table 1. One gigawatt in orbit takes 125 to 205 Starship launches",
                  ["Target", "Mass to orbit", f"Starship launches ({t_l:.0f} t each)", "Context"], launch, [0.27, 0.24, 0.17, 0.32],
-                 note="Mass budgets: 12.5 kg per kW (between SpaceX's filing, which implies 10, and its satellite design, about 14) to 20.5 kg per kW (Google's reference satellite: 575 kg, 28 kW). Starship's 100 t payload is a design goal.")
+                 note="Mass budgets run from 12.5 kg per kW (between SpaceX's filing, which implies 10, and its satellite design, about 14) to 20.5 kg per kW (Google's reference satellite, 575 kg for 28 kW). Starship's 100 t payload is a design goal.")
 
     # Supplementary / t7: cost math (launch cost only, Google's basis)
     cost = [
-        ["~$3,250/kg (Falcon 9 list price today)", "~$13,000", "4 to 23 times the bill"],
-        ["$1,000/kg", "~$4,050", "1.3 to 7 times the bill"],
+        ["About $3,250/kg (Falcon 9 list price today)", "About $13,000", "4 to 23 times the bill"],
+        ["$1,000/kg", "About $4,050", "1.3 to 7 times the bill"],
         ["$200/kg (Google's mid-2030s threshold)", "$810", "Within the range"],
     ]
-    render_table("t7_cost_math.png", "Supplementary table. Launch cost alone per kilowatt-year in orbit, against a $570-3,000 electricity bill on the ground",
+    render_table("t7_cost_math.png", "Supplementary table. Launch cost alone per kilowatt-year in orbit, against a $570 to $3,000 electricity bill on the ground",
                  ["Launch price per kilogram", "Launch cost per kW-year", "Versus a terrestrial data center's electricity bill"], cost, [0.34, 0.26, 0.40],
                  note="Google's $810 at $200/kg for its reference satellite (20.5 kg per kW, five-year life), scaled linearly with launch price. Excludes the satellite itself.")
 

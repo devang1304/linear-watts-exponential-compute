@@ -37,7 +37,7 @@ ORANGE = "#eb6834"   # grid as-is
 GREEN = "#0f9d78"    # all-out on-site (solid) and all-out plus orbital (dashed); validated with the dataviz palette script
 FONT = {"family": "DejaVu Sans"}
 FIG_DIR = os.path.join(HERE, "figures")
-SOURCE_LINE = ("Model and inputs: github.com/devang1304/linear-watts-exponential-compute (Epoch AI, EIA, LBNL, Goldman Sachs, "
+SOURCE_LINE = ("Model and inputs at github.com/devang1304/linear-watts-exponential-compute (Epoch AI, EIA, LBNL, Goldman Sachs, "
                "GE Vernova, SpaceX filings). As of Sept 30, 2026.")
 T_TITLE, T_SUB, T_AX, T_NOTE, T_FOOT = 12.5, 10, 10, 9.5, 8
 
@@ -87,16 +87,16 @@ def fig0_identity(inp, supply):
     eff = inp["hw_eff_growth"] * inp["alg_eff_growth"]
     boxes = [
         ("Power connected", "gigawatts connectable to AI sites",
-         f"+{min(adds):.0f}–{max(adds):.0f} GW a year", "linear", BOX, INK),
+         f"+{min(adds):.0f} to {max(adds):.0f} GW", "a year, linear", BOX, INK),
         ("Hardware efficiency", "operations per watt",
-         f"× {inp['hw_eff_growth']:.1f} a year", "compounding", BOX, INK),
+         f"× {inp['hw_eff_growth']:.1f}", "a year, compounding", BOX, INK),
         ("Algorithmic efficiency", "capability per operation",
-         f"× {inp['alg_eff_growth']:.1f} a year", "compounding", BOX, INK),
+         f"× {inp['alg_eff_growth']:.1f}", "a year, compounding", BOX, INK),
         ("Computing delivered", "capability-adjusted",
-         "× 4.5 to 5.9 a year", "exponential", BLUE, "#ffffff"),
+         "× 4.5 to 5.9", "a year, exponential", BLUE, "#ffffff"),
     ]
     xs = [3, 27, 51, 77]
-    w, h, y0 = 21, 42, 22
+    w, h, y0 = 21, 42, 25
     for (head, desc, rate, kind, fill, ink), x in zip(boxes, xs):
         ax.add_patch(FancyBboxPatch((x, y0), w, h, boxstyle="round,pad=0,rounding_size=2.5",
                                     facecolor=fill, edgecolor="none"))
@@ -112,14 +112,14 @@ def fig0_identity(inp, supply):
     ax.plot([27.5, 71.5], [y0 - 4, y0 - 4], color=AXIS, linewidth=1)
     ax.plot([27.5, 27.5], [y0 - 4, y0 - 1.5], color=AXIS, linewidth=1)
     ax.plot([71.5, 71.5], [y0 - 4, y0 - 1.5], color=AXIS, linewidth=1)
-    ax.text(49.5, y0 - 9.5, f"together: × {eff:.1f} more computing per watt every year", ha="center", va="center",
+    ax.text(49.5, y0 - 9.5, f"together they give × {eff:.1f} more computing per watt every year", ha="center", va="center",
             fontsize=9.5, color=INK2)
     fig.text(0.02, 0.955, "Only one of the three terms depends on the grid", fontsize=T_TITLE, color=INK,
              fontweight="semibold", va="top")
-    fig.text(0.02, 0.86, textwrap.fill("Base-case rates, 2025–2035. Power additions are the grid-as-is path; the two "
+    fig.text(0.02, 0.86, textwrap.fill("Base-case rates, 2025 to 2035. Power additions are the grid-as-is path; the two "
              "efficiency terms have compounded for years.", 100), fontsize=T_SUB, color=INK2, va="top", linespacing=1.3)
-    fig.text(0.02, 0.04, "Efficiency rates: Epoch AI (operations per watt doubling every ~2 years; compute for fixed performance "
-             "halving every ~8 months).", fontsize=T_FOOT, color=MUTED, va="bottom")
+    fig.text(0.02, 0.03, textwrap.fill("Efficiency rates from Epoch AI (operations per watt doubling about every 2 years; compute "
+             "for fixed performance halving about every 8 months).", 118), fontsize=T_FOOT, color=MUTED, va="bottom")
     fig.savefig(os.path.join(FIG_DIR, "fig0_identity.png"), facecolor=SURFACE)
     plt.close(fig)
 
@@ -133,19 +133,19 @@ def fig1_power(rows):
     fig.subplots_adjust(left=0.085, right=0.80, top=0.80, bottom=0.14)
     style(ax, "Gigawatts (GW)")
     line(ax, xs, pick("supply_grid_gw"), ORANGE, "Grid as-is")
-    line(ax, xs, pick("supply_terrestrial_gw"), GREEN, "All-out: grid plus on-site generation")
+    line(ax, xs, pick("supply_terrestrial_gw"), GREEN, "All-out (grid plus on-site generation)")
     line(ax, xs, pick("supply_terrestrial_plus_space_gw"), GREEN, "All-out plus orbital (launch-limited)", dashed=True)
-    line(ax, xs, pick("demand_gw"), BLUE, "Wanted: 1.5x a year", z=5)
+    line(ax, xs, pick("demand_gw"), BLUE, "Wanted path (1.5x a year)", z=5)
     for k, lab, dy in (("demand_gw", "Wanted", 0), ("supply_terrestrial_plus_space_gw", "All-out + orbital", 7),
                        ("supply_terrestrial_gw", "All-out", -7), ("supply_grid_gw", "Grid as-is", 0)):
         y = pick(k)[-1]
-        end_label(ax, xs[-1], y, f"{lab}: {y:,.0f}", dy)
-    for key, lab, ypos, ha, dx in (("supply_grid_gw", "grid as-is", 5, "left", 0.08),
-                                   ("supply_terrestrial_gw", "all-out", 42, "left", 0.08)):
+        end_label(ax, xs[-1], y, f"{lab} {y:,.0f} GW", dy)
+    for key, lab, ypos, ha, dx in (("supply_grid_gw", "on today's grid", 5, "left", 0.08),
+                                   ("supply_terrestrial_gw", "with all-out power", 42, "left", 0.08)):
         for r in rows:
             if r["demand_gw"] > r[key]:
                 ax.axvline(r["year"], color=AXIS, linewidth=1, zorder=1)
-                ax.text(r["year"] + dx, ypos, f"{r['year']}: wanted {r['demand_gw']:.0f},\n{lab} {r[key]:.0f} GW",
+                ax.text(r["year"] + dx, ypos, f"In {r['year']}, {r['demand_gw']:.0f} GW wanted and\n{r[key]:.0f} GW available {lab}",
                         fontsize=T_NOTE, color=INK2, va="bottom", ha=ha, linespacing=1.25)
                 break
     ax.set_xticks(xs)
@@ -154,7 +154,7 @@ def fig1_power(rows):
     ax.set_yticks([0, 100, 200, 300])
     ax.legend(loc="upper left", frameon=False, fontsize=T_NOTE, labelcolor=INK2, handlelength=2.2)
     title(fig, "Power runs short in 2029 on today's grid, and in 2031 even with generators on site",
-          "Gigawatts of US AI data-center power, 2025–2032. One gigawatt is roughly the draw of 750,000 US homes.")
+          "Gigawatts of US AI data-center power, 2025 to 2032. One gigawatt is roughly the draw of 750,000 US homes.")
     fig.savefig(os.path.join(FIG_DIR, "fig1_power.png"), facecolor=SURFACE)
     plt.close(fig)
 
@@ -197,10 +197,10 @@ def fig2_compute(rows, inp, supply):
     end_label(ax, xs[-1], growth["compute_grid"][-1], f"{growth['compute_grid'][-1]:.1f}x (both)", -2)
     if bind is not None:
         ax.vlines(bind, 0, 6.3, color=AXIS, linewidth=1, zorder=1)
-        ax.text(bind + 0.08, 0.35, f"{bind}: today's grid binds", fontsize=T_NOTE, color=INK2, va="bottom")
+        ax.text(bind + 0.08, 0.35, f"Today's grid binds in {bind}", fontsize=T_NOTE, color=INK2, va="bottom")
     if bind is not None and bind < xs[-1]:
         avg_post = (rows[-1]["compute_grid"] / rows[xs.index(bind) + 1]["compute_grid"]) ** (1 / (xs[-1] - bind))
-        ax.text(bind + 0.12, 3.8, f"average {avg_post:.1f}x a year once the grid binds ({bind}\u2013{xs[-1]})",
+        ax.text(bind + 0.12, 3.8, f"average {avg_post:.1f}x a year once the grid binds, {bind} to {xs[-1]}",
                 fontsize=T_NOTE, color=ORANGE, va="top", ha="left")
     ax.text(x0 + 0.15, 1.12, "1x would mean no growth", fontsize=T_NOTE, color=MUTED, va="bottom")
     # efficiency range as a whisker at the left edge, label beside it
@@ -208,8 +208,8 @@ def fig2_compute(rows, inp, supply):
     ax.plot([wx, wx], [eff_lo, eff_hi], color=MUTED, linewidth=1.2, clip_on=False)
     for yv in (eff_lo, eff_hi):
         ax.plot([wx - 0.07, wx + 0.07], [yv, yv], color=MUTED, linewidth=1.2, clip_on=False)
-    ax.text(wx + 0.2, 7.97, textwrap.fill(f"{eff_lo:.1f}x to {eff_hi:.1f}x: where the wanted line would sit if "
-            f"efficiency gains ran at the low or high end of the ranges swept; every line scales by the same factor", 31),
+    ax.text(wx + 0.2, 7.97, textwrap.fill(f"At the low or high end of the efficiency ranges, the wanted line sits at "
+            f"{eff_lo:.1f}x to {eff_hi:.1f}x, and every line scales with it", 31),
             fontsize=9, color=MUTED, va="top", ha="left", linespacing=1.25)
     ax.set_xticks(xs)
     ax.set_xlim(x0, x1)
@@ -217,7 +217,7 @@ def fig2_compute(rows, inp, supply):
     ax.set_yticks([0, 1, 2, 4, 6, 8])
     ax.set_yticklabels(["0", "1x", "2x", "4x", "6x", "8x"])
     ax.legend(loc="lower right", bbox_to_anchor=(1.0, 0.09), frameon=False, fontsize=T_NOTE, labelcolor=INK2, handlelength=2.2)
-    title(fig, "Once the grid binds, computing still grows about 4.5x a year instead of 5.9x",
+    title(fig, "Once the grid binds, computing still grows about 4.5x a year, compared with 5.9x on the wanted path",
           f"Each year's capability-adjusted computing as a multiple of the year before. Hardware efficiency "
           f"{inp['hw_eff_growth']:.1f}x and algorithmic efficiency {inp['alg_eff_growth']:.1f}x a year in every path; only the power term differs.")
     fig.savefig(os.path.join(FIG_DIR, "fig2a_growth.png"), facecolor=SURFACE)
@@ -236,13 +236,13 @@ def fig2_compute(rows, inp, supply):
     style(ax, "Percent of the wanted path's computing")
     ax.fill_between(xs, env_lo, env_hi, color=ORANGE, alpha=0.12, linewidth=0, zorder=1)
     ax.hlines(100, xs[0], xs[-1], color=BLUE, linewidth=2, zorder=2)
-    end_label(ax, xs[-1], 100, "Wanted path: 100%", 0)
+    end_label(ax, xs[-1], 100, "Wanted path 100%", 0)
     for k, c, d, lab in paths[1:]:
         line(ax, xs, share[k], c, lab, dashed=d)
         end_label(ax, xs[-1], share[k][-1], f"{share[k][-1]:.0f}%", 0)
     ax.text(x0 + 0.15, 6, textwrap.fill(
-        f"Shaded: where the grid-as-is line lands ({env_lo[-1]:.0f}% to {env_hi[-1]:.0f}% in 2035) if today's AI "
-        f"power is 10 or 20 GW instead of 15, in any combination with supply 30% short or long.", 60),
+        f"The shaded band shows where the grid-as-is line lands ({env_lo[-1]:.0f}% to {env_hi[-1]:.0f}% in 2035) "
+        f"for any mix of today's AI power at 10, 15 or 20 GW and supply 30% lower, unchanged or 30% higher.", 60),
         fontsize=T_NOTE, color=INK2, va="bottom", linespacing=1.25, zorder=5)
     ax.set_xticks(xs)
     ax.set_xlim(x0, x1)
@@ -310,7 +310,7 @@ def fig3_campus(inp):
     ax.set_xticklabels([f"{y}\n{plans[y][1]}" for y in years], linespacing=1.3)
     ax.set_yticks([0, 2, 4, 6])
     ax.legend(handles=[Line2D([0], [0], color=BLUE, lw=8, label="Largest campus planned for the year (Epoch AI tracker)"),
-                       Line2D([0], [0], color=MUTED, lw=8, label="Epoch's trend: doubling every 10 months from 0.95 GW in June 2026")],
+                       Line2D([0], [0], color=MUTED, lw=8, label="Epoch's trend, doubling every 10 months from 0.95 GW in June 2026")],
               loc="upper left", frameon=False, fontsize=T_NOTE, labelcolor=INK2)
     title(fig, "The biggest AI campus planned for 2028 is 2.3 gigawatts; the trend says about 5",
           "Largest single-site AI campus by IT power (what the chips draw, before cooling), mid-year, against the doubling "

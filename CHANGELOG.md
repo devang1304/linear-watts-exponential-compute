@@ -1,6 +1,31 @@
 # Changelog
 
-## 2026-09-30 — v1.0, first publication
+## 2026-10-01, v1.1, pre-publication review
+
+Corrections from a second review of the full draft (numbers, sources, editorial and adversarial passes, graded against a written rubric). The post text lives in the Medium draft; the corrections below were applied there.
+
+Post:
+
+- Single site: "Epoch's own projection for the largest campus is 4 to 16 gigawatts" removed. That range is Epoch's figure for the largest training run, which may span sites; Epoch's single-campus range for 2030 is 1 to 5 GW, now stated. The multi-site sentence now carries Epoch's conclusion that distributed training is feasible with bandwidth a smaller constraint than power, with optics kept as the cost.
+- Headline growth rate now carries its range (about 3 to 6x once the grid binds at the ends of the efficiency ranges), and the 9.3 million figure is labelled as what the efficiency assumptions imply.
+- Fleet-replacement caveat corrected from 55 to 65% to 50 to 65% (four- to six-year cycles at 1.4x a year give 65%, 57% and 51%).
+- "AI's power grows only 12 to 20% a year by 2032" corrected to 17 to 20% in 2032 and about 12% by 2035.
+- PJM's service population corrected from 65 to 67 million (PJM's July 14, 2026 release). "50% a year" corrected to "1.5 times a year". "About 150 lines of Python" corrected to about 170.
+- The hardware-efficiency sentence no longer infers that 1.4x is the careful choice from a rack-throughput figure that also carries higher rack power.
+- Buyer guidance now distinguishes Epoch's 13x a year all-benchmark price decline from about 5x a year for capability two years old, matching the price prediction; the price-index falsifier softened from "rises for two quarters" to "stops falling for a year".
+- Orbital path: the model's crediting of orbital chips with ground efficiency is stated.
+- Starship flight count and ship reuse tied to September 30, 2026; years added to the November 2025, March 2026 and February 2026 quotes.
+- Table 1 image replaced (Falcon 9 flew 165 times in 2025, not about 170; "filing" for "prospectus"); Figure 3 image replaced ("full build" for "end-state").
+
+Repository:
+
+- charts.py and tables.py: en dashes and colons removed from all figure and table text, annotations reworded in plain sentences, fig2a title changed from "instead of 5.9x" to "compared with 5.9x on the wanted path", fig0 and fig1 labels reworded, table source notes rewritten as sentences, ranges written "a to b", "not swept" changed to "fixed".
+- tables.py: Falcon 9 2025 launches 165; "prospectus" changed to "filing"; the campus table note now gives Epoch's 1 to 5 GW single-campus range and attributes the 4 to 16 GW to the largest training run.
+- campus.csv: site label "xAI Colossus 2 end-state" changed to "xAI Colossus 2 full build"; the Hyperion note corrected as above.
+- README: title of the Medium post added; en dash removed; result sentence and supply-path names reworded.
+- All figures re-rendered.
+
+## 2026-09-30, v1.0, first draft
 
 Model, inputs and figures as of September 30, 2026.
 

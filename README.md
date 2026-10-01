@@ -1,6 +1,6 @@
 # Linear watts, exponential compute
 
-A bounding model of US AI compute under electricity constraints, 2025–2035, and the code behind the post of the same name.
+A bounding model of US AI compute under electricity constraints, 2025 to 2035, and the code behind the Medium post "Will AI run out of electricity?".
 
 The whole model is one identity, run year by year:
 
@@ -8,7 +8,7 @@ The whole model is one identity, run year by year:
 compute(t) = power(t) × hardware_efficiency^(t−2025) × algorithmic_efficiency^(t−2025)
 ```
 
-where `power(t)` is the lesser of what the industry wants to build (a demand path) and what can be connected (a supply path). The result: with power growing linearly instead of 1.5x a year, compute still grows about 4.5x a year once the grid binds, against 5.9x on the wanted path; the largest single-site campus planned for 2028 is 2.3x under Epoch's trend; and orbital compute cannot add meaningful gigawatts before 2031 even on the vendor's mass budget.
+where `power(t)` is the lesser of what the industry wants to build (a demand path) and what can be connected (a supply path). The result is that with power growing in a straight line of 12 to 18 GW a year while the industry wants 1.5x a year, compute still grows about 4.5x a year once the grid binds, against 5.9x on the wanted path; the largest single-site campus planned for 2028 is 2.3 GW against a 5.2 GW trend; and orbital compute adds under 5 GW before 2031 even on the vendor's mass budget.
 
 **As of September 30, 2026.**
 
@@ -31,14 +31,14 @@ Every parameter lives in one of three CSVs, each row with its source URL and dat
 | File | What it holds |
 | --- | --- |
 | `inputs.csv` | Starting power, demand growth, the two efficiency terms, the space parameters, the share-of-electricity inputs, the single-site trend anchor. Columns: `name, value, low, high, unit, source_url, source_date, note`. |
-| `supply_paths.csv` | Per-year GW newly connectable under the grid-as-is and all-out terrestrial paths, and AI-dedicated Starship launches per year. |
+| `supply_paths.csv` | Per-year GW newly connectable under the grid-as-is and all-out on-site paths (columns `grid_as_is_gw` and `all_out_terrestrial_gw`), and AI-dedicated Starship launches per year. |
 | `campus.csv` | The largest planned single-site campus by year (2026-2030), with the site and source. The trend it is compared with is Epoch's ten-month doubling from the June 2026 record (parameters in `inputs.csv`). |
 
-The `low`/`high` columns are the ranges `sensitivity.py` sweeps, one input at a time, alongside terrestrial supply ±30% and two combinations. `results/sensitivity.csv` holds every case; Table 3 in the post shows a subset.
+The `low`/`high` columns are the ranges `sensitivity.py` sweeps, one input at a time, alongside ground supply 30% lower or higher and two combinations. `results/sensitivity.csv` holds every case; Table 3 in the post shows a subset.
 
 After editing a value, rerun all four scripts. The results and the plotted lines follow; titles, notes and a few table cells in `charts.py` and `tables.py` are written for the base case and have to be updated by hand.
 
-`post.md` is the post. `CHANGELOG.md` lists the corrections made before publication.
+`CHANGELOG.md` lists the corrections made before publication.
 
 ## License
 
