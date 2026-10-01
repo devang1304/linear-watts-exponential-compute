@@ -1,0 +1,11 @@
+year,grid_as_is_gw,all_out_terrestrial_gw,space_ai_launches,note
+2026,12,14,0,"Grid as-is: gas additions ~6 GW/yr (EIA), turbine output 20 GW/yr globally (GE Vernova), interconnection median 61 months (LBNL); large operators still adding several GW each (Amazon +3.9 GW in 2025). All-out terrestrial adds behind-the-meter gas/engines, solar+storage microgrids, demand flexibility."
+2027,12,18,0,"All-out terrestrial ramps toward Goldman's ~30 GW of behind-the-meter gas by 2030 and IEA's 15-27 GW of on-site gas."
+2028,12,22,40,"Space: SpaceX says deployment 'as early as 2028'; 40 AI-dedicated Starship flights assumed (Starship flew 3 times in 2026)."
+2029,13,26,125,"Turbine output rising (GE Vernova 24 GW/yr in 2028)."
+2030,14,30,375,"GE Vernova targets 30 GW/yr of turbine output in 2030; all-out terrestrial peaks at 30 GW/yr of connectable AI power."
+2031,15,32,625,"Terrestrial additions plateau; space launch cadence keeps rising."
+2032,16,32,1000,""
+2033,17,32,1500,""
+2034,18,32,2000,""
+2035,18,32,2500,""
