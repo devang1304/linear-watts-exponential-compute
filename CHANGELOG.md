@@ -2,6 +2,7 @@
 
 ## 2026-10-01, v1.2, single date stamp
 
+- Figures renumbered 1 to 5 in the post and in the file names (fig1_identity to fig5_campus_gap); tables stay 1 to 3.
 - Figures, Table 1 and README now carry one date, October 1, 2026, the day the post was written and published, in place of a separate September 30 data date. Inputs are unchanged.
 
 ## 2026-10-01, v1.1, pre-publication review

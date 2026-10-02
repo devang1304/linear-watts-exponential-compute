@@ -18,7 +18,7 @@ where `power(t)` is the lesser of what the industry wants to build (a demand pat
 pip install -r requirements.txt
 python sim.py            # prints the summary, writes results/sim_out.csv
 python sensitivity.py    # prints the sensitivity table, writes results/sensitivity.csv
-python charts.py         # figures/fig0_identity.png, fig1_power.png, fig2a_growth.png, fig2b_share.png, fig3_campus_gap.png
+python charts.py         # figures/fig1_identity.png, fig2_power.png, fig3_growth.png, fig4_share.png, fig5_campus_gap.png (Figures 1 to 5 in the post)
 python tables.py         # figures/tables/t1..t7.png (Table 1 = t6, Table 2 = t1, Table 3 = t5; the rest are supplementary)
 ```
 

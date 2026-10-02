@@ -1,8 +1,8 @@
 """
 Figures for the post, rendered from the model (sim.py), inputs.csv and campus.csv.
 
-    python charts.py   -> figures/fig0_identity.png, fig1_power.png, fig2a_growth.png,
-                          fig2b_share.png, fig3_campus_gap.png
+    python charts.py   -> figures/fig1_identity.png, fig2_power.png, fig3_growth.png,
+                          fig4_share.png, fig5_campus_gap.png
 
 Style: light surface, 2px lines, markers with a surface ring, hairline gridlines,
 ink-colored text, one legend plus selective direct end labels. Series keep the same
@@ -120,7 +120,7 @@ def fig0_identity(inp, supply):
              "efficiency terms have compounded for years.", 100), fontsize=T_SUB, color=INK2, va="top", linespacing=1.3)
     fig.text(0.02, 0.03, textwrap.fill("Efficiency rates from Epoch AI (operations per watt doubling about every 2 years; compute "
              "for fixed performance halving about every 8 months).", 118), fontsize=T_FOOT, color=MUTED, va="bottom")
-    fig.savefig(os.path.join(FIG_DIR, "fig0_identity.png"), facecolor=SURFACE)
+    fig.savefig(os.path.join(FIG_DIR, "fig1_identity.png"), facecolor=SURFACE)
     plt.close(fig)
 
 
@@ -155,7 +155,7 @@ def fig1_power(rows):
     ax.legend(loc="upper left", frameon=False, fontsize=T_NOTE, labelcolor=INK2, handlelength=2.2)
     title(fig, "Power runs short in 2029 on today's grid, and in 2031 even with generators on site",
           "Gigawatts of US AI data-center power, 2025 to 2032. One gigawatt is roughly the draw of 750,000 US homes.")
-    fig.savefig(os.path.join(FIG_DIR, "fig1_power.png"), facecolor=SURFACE)
+    fig.savefig(os.path.join(FIG_DIR, "fig2_power.png"), facecolor=SURFACE)
     plt.close(fig)
 
 
@@ -220,7 +220,7 @@ def fig2_compute(rows, inp, supply):
     title(fig, "Once the grid binds, computing still grows about 4.5x a year, compared with 5.9x on the wanted path",
           f"Each year's capability-adjusted computing as a multiple of the year before. Hardware efficiency "
           f"{inp['hw_eff_growth']:.1f}x and algorithmic efficiency {inp['alg_eff_growth']:.1f}x a year in every path; only the power term differs.")
-    fig.savefig(os.path.join(FIG_DIR, "fig2a_growth.png"), facecolor=SURFACE)
+    fig.savefig(os.path.join(FIG_DIR, "fig3_growth.png"), facecolor=SURFACE)
     plt.close(fig)
 
     # --- 2b: share of the wanted path, with the envelope for the grid path
@@ -258,7 +258,7 @@ def fig2_compute(rows, inp, supply):
                f"computing, and still {r35['compute_grid']/1e6:.1f} million times the 2025 level",
           "Computing delivered under each supply path as a share of the wanted path, which has unlimited power. "
           "The efficiency assumptions cancel out of this ratio.")
-    fig.savefig(os.path.join(FIG_DIR, "fig2b_share.png"), facecolor=SURFACE)
+    fig.savefig(os.path.join(FIG_DIR, "fig4_share.png"), facecolor=SURFACE)
     plt.close(fig)
 
 
@@ -315,7 +315,7 @@ def fig3_campus(inp):
     title(fig, "The biggest AI campus planned for 2028 is 2.3 gigawatts; the trend says about 5",
           "Largest single-site AI campus by IT power (what the chips draw, before cooling), mid-year, against the doubling "
           "time of the record campus since mid-2024.")
-    fig.savefig(os.path.join(FIG_DIR, "fig3_campus_gap.png"), facecolor=SURFACE)
+    fig.savefig(os.path.join(FIG_DIR, "fig5_campus_gap.png"), facecolor=SURFACE)
     plt.close(fig)
 
 
