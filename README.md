@@ -10,7 +10,7 @@ compute(t) = power(t) × hardware_efficiency^(t−2025) × algorithmic_efficienc
 
 where `power(t)` is the lesser of what the industry wants to build (a demand path) and what can be connected (a supply path). The result is that with power growing in a straight line of 12 to 18 GW a year while the industry wants 1.5x a year, compute still grows about 4.5x a year once the grid binds, against 5.9x on the wanted path; the largest single-site campus planned for 2028 is 2.3 GW against a 5.2 GW trend; and orbital compute adds under 5 GW before 2031 even on the vendor's mass budget.
 
-**As of September 30, 2026.**
+**As of October 1, 2026.**
 
 ## Run it
 

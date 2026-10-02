@@ -192,7 +192,7 @@ def main():
     def l_per_gw(kwt): return t_per_gw(kwt) / t_l
     launch = [
         ["1 GW of orbital compute", f"{t_per_gw(kw_t_lo):,.0f} to {t_per_gw(kw_t_hi):,.0f} t", f"{l_per_gw(kw_t_lo):,.0f} to {l_per_gw(kw_t_hi):,.0f}",
-         "Starship flew three times in 2026 to Sept 30; Falcon 9 flew 165 times in 2025"],
+         "Starship flew three times in 2026 by Oct 1; Falcon 9 flew 165 times in 2025"],
         ["SpaceX plant target of 1 GW a year from end-2027", f"{t_per_gw(kw_t_lo):,.0f} to {t_per_gw(kw_t_hi):,.0f} t/yr", f"{l_per_gw(kw_t_lo):,.0f} to {l_per_gw(kw_t_hi):,.0f} a year",
          "A Starship for AI every two to three days"],
         ["SpaceX filing goal of 100 GW a year", f"{100*t_per_gw(kw_t_lo)/1e6:.3g} to {100*t_per_gw(kw_t_hi)/1e6:.3g} million t/yr",

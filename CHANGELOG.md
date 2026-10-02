@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-01, v1.2, single date stamp
+
+- Figures, Table 1 and README now carry one date, October 1, 2026, the day the post was written and published, in place of a separate September 30 data date. Inputs are unchanged.
+
 ## 2026-10-01, v1.1, pre-publication review
 
 Corrections from a second review of the full draft (numbers, sources, editorial and adversarial passes, graded against a written rubric). The post text lives in the Medium draft; the corrections below were applied there.

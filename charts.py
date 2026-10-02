@@ -38,7 +38,7 @@ GREEN = "#0f9d78"    # all-out on-site (solid) and all-out plus orbital (dashed)
 FONT = {"family": "DejaVu Sans"}
 FIG_DIR = os.path.join(HERE, "figures")
 SOURCE_LINE = ("Model and inputs at github.com/devang1304/linear-watts-exponential-compute (Epoch AI, EIA, LBNL, Goldman Sachs, "
-               "GE Vernova, SpaceX filings). As of Sept 30, 2026.")
+               "GE Vernova, SpaceX filings). As of Oct 1, 2026.")
 T_TITLE, T_SUB, T_AX, T_NOTE, T_FOOT = 12.5, 10, 10, 9.5, 8
 
 
